@@ -1,23 +1,15 @@
 # ms-barriodigital-catalog
 
-Microservicio encargado del catálogo de tipos de trámite, requisitos y cupos diarios de **BarrioDigital**.
-
-## Descripción
-
-Centraliza la configuración administrativa de los trámites disponibles en la plataforma.
-
-Su información puede ser consultada por el BFF y por otros microservicios, particularmente Requests.
+Microservicio encargado de los tipos de trámite, requisitos y cupos de **BarrioDigital**.
 
 ## Responsabilidades
 
 - Crear tipos de trámite.
 - Consultar tipos de trámite.
 - Modificar tipos de trámite.
-- Activar/desactivar tipos.
 - Gestionar requisitos.
-- Gestionar cupos diarios.
-- Consultar disponibilidad por fecha.
-- Mantener configuración del catálogo.
+- Gestionar cupos.
+- Consultar disponibilidad.
 
 ## Stack tecnológico
 
@@ -33,7 +25,7 @@ Su información puede ser consultada por el BFF y por otros microservicios, part
 - Spring Boot Actuator
 - Docker
 
-## Puerto local
+## Puerto
 
 ```text
 8082
@@ -45,110 +37,61 @@ Su información puede ser consultada por el BFF y por otros microservicios, part
 barriodigital_catalog_db
 ```
 
-Patrón:
-
-```text
-Database per Service
-```
-
-Ningún otro servicio debe leer directamente esta base.
-
-## API inicial
+## API
 
 ```http
 GET   /api/v1/procedure-types
-GET   /api/v1/procedure-types/{procedureTypeId}
 POST  /api/v1/procedure-types
-PUT   /api/v1/procedure-types/{procedureTypeId}
-PATCH /api/v1/procedure-types/{procedureTypeId}/status
-
-GET   /api/v1/procedure-types/{procedureTypeId}/availability
-PUT   /api/v1/procedure-types/{procedureTypeId}/quota
+GET   /api/v1/procedure-types/{id}
+PUT   /api/v1/procedure-types/{id}
+GET   /api/v1/procedure-types/{id}/availability
+PATCH /api/v1/procedure-types/{id}/quota
 ```
 
-Ejemplo de tipo de trámite:
+## Modelo principal
 
-```json
-{
-  "name": "Reparación de luminaria",
-  "description": "Solicitud por luminaria pública defectuosa",
-  "dailyQuota": 40,
-  "active": true
-}
+```text
+ProcedureType
+├── id
+├── name
+├── description
+├── dailyQuota
+├── availableQuota
+├── requirements
+└── active
 ```
-
-## Reglas iniciales
-
-- El cupo diario debe ser configurable.
-- Los tipos de trámite pueden ser activados o desactivados.
-- Requests debe consumir la API de Catalog en lugar de consultar directamente su base de datos.
-- La disponibilidad se calcula para una fecha determinada.
 
 ## Integraciones
 
-Consumidores principales:
+Principal consumidor:
 
 ```text
-ms-barriodigital-bff
 ms-barriodigital-requests
 ```
 
-Comunicación:
+Flujo:
 
 ```text
-REST / JSON
+Requests
+   ↓ REST
+Catalog
+   ↓
+MySQL
 ```
 
 ## Seguridad
 
-Roles esperados:
-
-```text
-ADMIN
-OPERATOR
-```
-
-El rol `ADMIN` tendrá permisos de escritura.
-
-Los usuarios autorizados podrán consultar el catálogo según las reglas establecidas.
+- JWT.
+- Spring Security.
+- Amazon Cognito.
+- RBAC.
 
 ## Observabilidad
 
 - Spring Boot Actuator.
 - Health checks.
 - Logs.
-- Métricas.
 - Amazon CloudWatch.
-- Correlation ID.
-
-## Variables de entorno
-
-```env
-SERVER_PORT=8082
-
-MYSQL_HOST=
-MYSQL_PORT=3306
-MYSQL_DATABASE=barriodigital_catalog_db
-MYSQL_USER=
-MYSQL_PASSWORD=
-
-EUREKA_SERVER_URL=
-COGNITO_ISSUER_URI=
-```
-
-## Contratos
-
-Repositorio:
-
-```text
-barriodigital-contracts
-```
-
-Contrato:
-
-```text
-OpenAPI
-```
 
 ## Estructura esperada
 
@@ -161,17 +104,22 @@ src/
 │   │       ├── controller/
 │   │       ├── dto/
 │   │       ├── entity/
-│   │       ├── exception/
-│   │       ├── mapper/
 │   │       ├── repository/
+│   │       ├── service/
 │   │       ├── security/
-│   │       └── service/
+│   │       └── exception/
 │   └── resources/
 │       └── application.yml
 └── test/
 ```
 
-## Ejecución local
+## Contrato
+
+```text
+barriodigital-contracts/openapi/catalog.openapi.yaml
+```
+
+## Ejecución
 
 ```bash
 ./mvnw spring-boot:run
@@ -181,28 +129,6 @@ src/
 
 ```bash
 docker build -t barriodigital/catalog:1.0.0 .
-```
-
-## CI/CD
-
-Pipeline previsto:
-
-```text
-GitHub
-↓
-GitHub Actions
-↓
-Tests
-↓
-SonarQube
-↓
-Snyk
-↓
-Docker
-↓
-Amazon ECR
-↓
-AWS
 ```
 
 ## Estrategia Git
@@ -216,4 +142,4 @@ fix/*
 
 ## Estado
 
-🚧 Proyecto en etapa inicial de diseño y construcción.
+🚧 Proyecto en etapa inicial de diseño e implementación.
