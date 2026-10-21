@@ -36,6 +36,9 @@ Microservicio encargado de los tipos de trámite, requisitos y cupos de **Barrio
 barriodigital_catalog_db
 ```
 
+Al ejecutar desde esta carpeta, Spring carga `DB_PASSWORD` desde el archivo
+compartido `../.env` del workspace. Ese archivo local no se versiona.
+
 ## API
 
 ```http
