@@ -99,19 +99,26 @@ MySQL
 src/
 ├── main/
 │   ├── java/
-│   │   └── cl/duoc/barriodigital/catalog/
-│   │       ├── config/
+│   │   └── cl/brarriodigital/catalog/
 │   │       ├── controller/
 │   │       ├── dto/
-│   │       ├── entity/
+│   │       │   ├── request/
+│   │       │   └── response/
+│   │       ├── exception/
+│   │       ├── model/
 │   │       ├── repository/
 │   │       ├── service/
-│   │       ├── security/
-│   │       └── exception/
+│   │       └── CatalogMsApplication.java
 │   └── resources/
-│       └── application.yml
+│       └── application.properties
 └── test/
 ```
+
+## Alcance de la primera etapa
+
+Este primer incremento establece la estructura por capas. La implementación de
+los endpoints y reglas de negocio definidos en el contrato se realizará en
+incrementos posteriores. No se incorpora mensajería en esta etapa.
 
 ## Contrato
 
