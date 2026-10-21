@@ -15,16 +15,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(
-    name = "procedure_types",
-    uniqueConstraints = @UniqueConstraint(name = "uk_procedure_types_name", columnNames = "name")
-)
+@Table(name = "procedure_types")
 @Getter
 @Setter
 @NoArgsConstructor
