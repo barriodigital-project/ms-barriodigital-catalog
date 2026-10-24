@@ -33,7 +33,7 @@ Microservicio encargado de los tipos de trámite, requisitos y cupos de **Barrio
 ## Base de datos
 
 ```text
-barriodigital_catalog_db
+catalog_db
 ```
 
 Al ejecutar desde esta carpeta, Spring carga `DB_PASSWORD` desde el archivo
@@ -48,7 +48,10 @@ GET   /api/v1/procedure-types/{id}
 PUT   /api/v1/procedure-types/{id}
 GET   /api/v1/procedure-types/{id}/availability
 PATCH /api/v1/procedure-types/{id}/quota
+DELETE /api/v1/procedure-types/{id}
 ```
+
+Eliminar un tipo de trámite responde HTTP 204.
 
 Al crear un tipo, `availableQuota` parte igual a `dailyQuota`. Un PUT reinicia
 el cupo disponible al cupo diario enviado. La disponibilidad es verdadera solo
@@ -150,6 +153,11 @@ defecto. Se pueden sobrescribir `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`
 y `DB_PASSWORD`. `JPA_DDL_AUTO` controla el DDL de Hibernate (por defecto
 `update`; usar migraciones controladas en producción). Actuator expone
 `health`, `info` y `metrics` bajo `/actuator`.
+
+## Service Discovery
+
+El servicio se registra en Eureka. Por defecto usa
+`http://localhost:8761/eureka/`; se puede cambiar mediante `EUREKA_SERVER_URL`.
 
 ## Contrato
 
