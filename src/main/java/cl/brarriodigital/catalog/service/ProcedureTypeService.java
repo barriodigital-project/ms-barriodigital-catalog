@@ -71,6 +71,12 @@ public class ProcedureTypeService {
     }
 
     @Transactional
+    public void delete(UUID id) {
+        var procedureType = getProcedureType(id);
+        repository.delete(procedureType);
+    }
+
+    @Transactional
     public ProcedureTypeResponse updateQuota(UUID id, UpdateQuotaRequest request) {
         var procedureType = repository.findByIdForUpdate(id)
             .orElseThrow(() -> notFound(id));
