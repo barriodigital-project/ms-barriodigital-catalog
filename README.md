@@ -38,6 +38,7 @@ catalog_db
 
 Al ejecutar desde esta carpeta, Spring carga `DB_PASSWORD` desde el archivo
 compartido `../.env` del workspace. Ese archivo local no se versiona.
+`DB_PASSWORD` es obligatoria; no existe una contraseña fallback.
 
 ## API
 
@@ -153,6 +154,11 @@ defecto. Se pueden sobrescribir `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`
 y `DB_PASSWORD`. `JPA_DDL_AUTO` controla el DDL de Hibernate (por defecto
 `update`; usar migraciones controladas en producción). Actuator expone
 `health`, `info` y `metrics` bajo `/actuator`.
+
+Para la ejecución local integrada, usar
+[`compose-up.ps1`](../barriodigital-infra/scripts/compose-up.ps1) desde la raíz
+del workspace. Los puertos internos de Catalog no se publican al host en
+Compose.
 
 ## Service Discovery
 
